@@ -1,0 +1,5 @@
+# GASへpushするファイルを .gs と appsscript.json のみに限定する
+# (いったん全て無視し、必要なものだけ除外解除)
+**/**
+!appsscript.json
+!*.gs

@@ -1,0 +1,14 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "libpack",
+        "libraryId": "13KJxU8q0ZYmZXyQswU2HrkQX-yXlgnlJ3BVzsKrS69oaE4FcViPRFPZb",
+        "version": "42"
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}

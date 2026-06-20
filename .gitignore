@@ -13,6 +13,13 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# clasp の認証情報・設定 (絶対にコミットしない)
+.clasprc.json
+.clasp.json
+
+# 旧コードから抽出した秘密情報の控え (ローカル参照用・絶対にコミットしない)
+secrets.local.txt
+
 # dotenv environment variable files
 .env
 .env.development

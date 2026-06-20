@@ -1,0 +1,20 @@
+{
+  "name": "robokatsu",
+  "version": "1.0.0",
+  "description": "各種サイトをスクレイピングし、新着情報をMastodon/Discordへ通知するGoogle Apps Scriptプロジェクト",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-syntax.js && node scripts/check-duplicate-functions.js",
+    "login": "clasp login",
+    "pull": "clasp pull",
+    "push": "clasp push",
+    "deploy": "npm run check && clasp push --force",
+    "open": "clasp open-script"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@google/clasp": "^3.3.0"
+  }
+}

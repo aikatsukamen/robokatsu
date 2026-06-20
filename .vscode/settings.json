@@ -1,0 +1,7 @@
+{
+  // .gs(Google Apps Script)をプレーンテキストではなく JavaScript として扱う。
+  // ワークスペース設定なので、Dev Container でもローカルでも常に適用される。
+  "files.associations": {
+    "*.gs": "javascript"
+  }
+}

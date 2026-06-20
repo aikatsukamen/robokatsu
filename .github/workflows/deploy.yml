@@ -1,0 +1,53 @@
+name: Deploy to GAS
+
+# main への push で自動デプロイ。
+# Actions 画面の "Run workflow" から手動デプロイも可能(workflow_dispatch)。
+on:
+  push:
+    branches: [main]
+    # ソース以外の変更ではデプロイしない
+    paths:
+      - '**.gs'
+      - 'appsscript.json'
+      - '.claspignore'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+# 同時実行を防ぎ、最新のpushだけをデプロイ
+concurrency:
+  group: deploy-gas
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check duplicate function names
+        run: npm run check
+
+      - name: Setup clasp credentials
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+          CLASP_JSON: ${{ secrets.CLASP_JSON }}
+        run: |
+          if [ -z "$CLASPRC_JSON" ] || [ -z "$CLASP_JSON" ]; then
+            echo "::error::Secrets CLASPRC_JSON / CLASP_JSON が未設定です。READMEのセットアップ手順を参照してください。"
+            exit 1
+          fi
+          printf '%s' "$CLASPRC_JSON" > ~/.clasprc.json
+          printf '%s' "$CLASP_JSON" > .clasp.json
+
+      - name: Push to Apps Script
+        run: npx clasp push --force

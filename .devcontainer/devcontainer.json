@@ -1,0 +1,45 @@
+{
+  // ローカル手動開発用の Dev Container 設定
+  // VS Code の "Dev Containers" 拡張、または GitHub Codespaces で利用できる。
+  "name": "robokatsu (GAS + clasp)",
+
+  // CI(GitHub Actions)と同じ Node 20 系に合わせる
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  "features": {
+    // git は同梱済み。gh は任意で便利なので追加
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // --- Lint / コード整形 ---
+        "dbaeumer.vscode-eslint",        // ESLint
+        "esbenp.prettier-vscode",        // Prettier
+        "EditorConfig.EditorConfig",     // .editorconfig に沿った整形
+
+        // --- 開発体験(DX) ---
+        "usernamehw.errorlens",          // エラー/警告を該当行にインライン表示
+        "eamodio.gitlens",               // Git の履歴・blame など強化
+
+        // --- このリポジトリ向け ---
+        "github.vscode-github-actions",  // .github/workflows の編集・実行確認
+        "redhat.vscode-yaml",            // ワークフロー等 YAML の補完・検証
+        "yzhang.markdown-all-in-one"     // README などの Markdown 編集支援
+      ],
+      "settings": {
+        // .gs を JavaScript として扱い、補完・ハイライトを効かせる
+        "files.associations": {
+          "*.gs": "javascript"
+        },
+        "editor.formatOnSave": false
+      }
+    }
+  },
+
+  // コンテナ作成後に clasp(devDependencies) を導入
+  "postCreateCommand": "npm install",
+
+  "remoteUser": "node"
+}
