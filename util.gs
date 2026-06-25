@@ -1,24 +1,21 @@
 /**
- * 関数のリトライ。失敗時はExceptionが飛ぶ
- * @param {Function} fn
- * @param {{count: number, limit: number, interval: number}} option
- * @param  {...any} args
+ * 関数のリトライ。limit 回まで再試行し、超過したら最後の例外を投げる。
+ * GAS には setTimeout が無いため Utilities.sleep を使う(同期)。
  */
 const retry = (fn, option, ...args) => {
-  return new Promise(async (resolve, reject) => {
+  let lastError;
+  for (let attempt = 0; attempt <= option.limit; attempt++) {
     try {
-      const data = await fn(...args);
-      resolve(data);
+      return fn(...args); // 同期。await 側はそのまま値を受け取れる
     } catch (error) {
-      if (option.count >= option.limit) {
-        console.error('リトライ超過' + error);
-        reject(error);
-      } else {
-        console.warn('エラー　リトライします ' + error);
-        setTimeout(async () => resolve(await retry(fn, { ...option, count: option.count + 1 }, ...args)), option.interval);
-      }
+      lastError = error;
+      if (attempt >= option.limit) break;
+      console.warn(`エラー リトライします(${attempt + 1}/${option.limit}) ${error}`);
+      Utilities.sleep(option.interval);
     }
-  });
+  }
+  console.error('リトライ超過 ' + lastError);
+  throw lastError;
 };
 
 const retryFetch = (url, option) => {
