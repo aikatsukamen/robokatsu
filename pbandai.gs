@@ -86,9 +86,16 @@ const getBandaiLifeStyle = () => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+    muteHttpExceptions: true,
   };
 
   const response = UrlFetchApp.fetch(url, options);
+  const code = response.getResponseCode();
+  if (code !== 200) {
+    // 504等で一時的に落ちることがある。巨大なエラーHTML本文をそのまま例外/ログに乗せず、
+    // 短い例外にして retry に委ねる(最終的に getList の catch で握られ、その回はスキップされる)。
+    throw new Error(`bandai-lifestyle HTTP ${code}`);
+  }
   const content = response.getContentText('UTF-8');
   const $ = cheerio.load(content);
 
