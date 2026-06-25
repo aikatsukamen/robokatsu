@@ -45,12 +45,12 @@ const exe_prtimes = () => {
     const response = UrlFetchApp.fetch(url, options);
     const content = response.getContentText('UTF-8');
     $ = cheerio.load(content);
-    let json = {};
-    $('script').each((i, v) => {
-      const text = $(v).html();
-      // console.log(text);
-      if (text.includes('アイカツ')) json = JSON.parse(text);
-    });
+
+    // 検索結果は Next.js の __NEXT_DATA__(JSON) に入っている。id 決め打ちで1つだけ取り出す。
+    // 旧実装は「'アイカツ' を含む全 <script> を片端から JSON.parse」していたため、
+    // 解析タグ等の非JSON script が混ざると例外→外側 catch で検索結果が丸ごと無言欠落していた。
+    const nextData = $('#__NEXT_DATA__').html();
+    const json = nextData ? JSON.parse(nextData) : {};
     console.log(json);
     if (json.page) {
       const releaseList = json.props.pageProps.dehydratedState.queries[0].state.data.pages[0].releaseList;
