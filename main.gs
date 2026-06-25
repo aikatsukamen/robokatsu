@@ -7,8 +7,8 @@
 // },
 const SURVEY_LIST_1 = [
   {
-    url: 'https://www.lantis.jp/news-list.php',
-    preMessage: 'https://www.lantis.jp/news-list.php \n',
+    url: 'https://lantis.jp/topics/',
+    preMessage: 'https://lantis.jp/topics/ \n',
     sheetName: 'Lantis',
     aikatsuVer: 'lantis',
     labelName: 'Lantisニュース',
