@@ -12,7 +12,9 @@ const exe_solInternational = () => {
       const product_name = $(v).find('.product_name').text();
       const item_name = $(v).find('.item_name').text();
       const title = item_name ? `${item_name} ${product_name}` : product_name;
-      const urlpath = $(v).find('a').attr('href').replace('./', '').replace('&ca=33', '');
+      const href = $(v).find('a').attr('href');
+      if (!href) return; // リンクが無い項目はスキップ(従来は undefined.replace で TypeError → .each 全体が中断していた)
+      const urlpath = href.replace('./', '').replace('&ca=33', '');
       const url = `https://www.sol-i.co.jp/item/${urlpath}`;
       list.push(`${title} ${url}`);
     });

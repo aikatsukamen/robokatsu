@@ -26,7 +26,9 @@ const getPBandaiItemList = (url) => {
     .find('li')
     .each(function (index, detail) {
       const itemName = $(detail).find('.search-title').text(); // 商品名
-      const itemurl = $(detail).find('a').attr('href').replace(/\?.*/, ''); // 商品URL
+      const href = $(detail).find('a').attr('href');
+      if (!href) return; // リンク無し項目はスキップ(従来は undefined.replace で TypeError → .each 全体が中断)
+      const itemurl = href.replace(/\?.*/, ''); // 商品URL
       // 相対なので、フルパスにする
       const fullurl = 'https://' + `p-bandai.jp/${itemurl}`.replace(/\/\//g, '/');
 

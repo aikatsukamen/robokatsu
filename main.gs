@@ -563,7 +563,9 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
 
     return true;
   } catch (e) {
-    console.error(JSON.stringify(e, null, '  '));
+    // Error は JSON.stringify すると message/stack が非列挙のため {} になり、原因が追えない。
+    // どのサイトで何が起きたかを残すため、ラベル付きで stack(無ければ文字列化)を出力する。
+    console.error(`[${labelName}] 例外: ${e && e.stack ? e.stack : e}`);
     return false;
   }
 };

@@ -24,7 +24,9 @@ const exe_gashapon_jp = () => {
 
     $(".pg-data__schedule").find(".c-card__list").each((i, v) => {
       const title = $(v).find(".c-card__name").text();
-      const url = "https://gashapon.jp" + $(v).find(".c-card__link").attr("href").replace("../", "/");
+      const href = $(v).find(".c-card__link").attr("href");
+      if (!href) return; // リンク無し項目はスキップ(従来は undefined.replace で TypeError → .each 全体が中断)
+      const url = "https://gashapon.jp" + href.replace("../", "/");
 
       let isTarget = false;
       for(const targetWord of TARGET_STR) {
