@@ -7,13 +7,6 @@
 // },
 const SURVEY_LIST_1 = [
   {
-    url: 'https://lantis.jp/topics/',
-    preMessage: 'https://lantis.jp/topics/ \n',
-    sheetName: 'Lantis',
-    aikatsuVer: 'lantis',
-    labelName: 'Lantisニュース',
-  },
-  {
     url: 'https://www.aikatsu.net/news/',
     preMessage: '',
     sheetName: 'アイカツアニメ',
@@ -21,11 +14,11 @@ const SURVEY_LIST_1 = [
     labelName: 'アイカツアニメニュース',
   },
   {
-    url: 'https://www.bandai.co.jp/candy/characters/character338/index.html',
+    url: 'https://www.bn-pictures.co.jp/news/',
     preMessage: '',
-    sheetName: 'バンダイキャンディ',
-    aikatsuVer: 'bandaiCandy',
-    labelName: 'バンダイキャンディ アイカツ！',
+    sheetName: 'バンダイナムコピクチャーズ',
+    aikatsuVer: 'bnpnews',
+    labelName: 'バンダイナムコピクチャーズニュース',
   },
   {
     url: 'https://dcd.aikatsu.com/encore/',
@@ -33,15 +26,7 @@ const SURVEY_LIST_1 = [
     sheetName: 'アイカツアンコール',
     aikatsuVer: 'aikatsuEncore',
     labelName: 'アイカツ！アンコール',
-  },
-  {
-    // gamer.ne.jp は Cloudflare で直取得不可のため Google News RSS 経由(exe_gamerjp 内で取得)
-    url: '',
-    preMessage: '',
-    sheetName: 'GamerJp',
-    aikatsuVer: 'gamerjp',
-    labelName: 'gamer.ne.jp アイカツニュース',
-  },
+  }
 ];
 
 const SURVEY_LIST_2 = [
@@ -60,19 +45,12 @@ const SURVEY_LIST_2 = [
     labelName: 'Youtube アイチューブ',
   },
   {
-    url: 'https://sec.carddass.com/club/',
-    preMessage: '',
-    sheetName: 'カードダスドットコム',
-    aikatsuVer: 'carddass',
-    labelName: 'カードダスドットコム',
-  },
-  {
-    url: 'https://www.bn-pictures.co.jp/news/',
-    preMessage: '',
-    sheetName: 'バンダイナムコピクチャーズ',
-    aikatsuVer: 'bnpnews',
-    labelName: 'バンダイナムコピクチャーズニュース',
-  },
+    url: 'https://www.googleapis.com/youtube/v3/activities?part=snippet&channelId=UCaHoeT_g-XpnJrvAKAqWJwA&maxResults=20',
+    preMessage: 'https://www.youtube.com/user/uruore/videos \n',
+    sheetName: 'uruore',
+    aikatsuVer: 'youtubeActivity2',
+    labelName: 'Youtube uruore',
+  }
 ];
 
 const SURVEY_LIST_3 = [
@@ -154,8 +132,7 @@ const SURVEY_LIST_4 = [
   },
 ];
 
-// 更新時に大量項目が追加されやすいサイトは、他サイトの実行を圧迫しないよう
-// 専用グループ(startAikatsuSurvey5)に分離する。頻度は Survey1 と同じ5分周期。
+// 更新時に大量項目が追加されやすいサイト
 const SURVEY_LIST_5 = [
   {
     url: 'https://eeo.today/store/101/title/2784',
@@ -173,7 +150,7 @@ const SURVEY_LIST_5 = [
   },
 ];
 
-// 楽天市場 専用(独立トリガー startAikatsuSurvey6。8時・9時の 0/10/30 分のみ実行)
+// 8時・9時の 0/10/30 分のみ実行するトリガー
 const SURVEY_LIST_6 = [
   {
     url: 'https://search.rakuten.co.jp/search/mall/%E3%82%A2%E3%82%A4%E3%82%AB%E3%83%84/?s=4&sid=356830',
@@ -183,6 +160,37 @@ const SURVEY_LIST_6 = [
     labelName: '楽天市場 アイカツ',
   },
 ];
+
+const SURVEY_LIST_7 = [
+  {
+    url: 'https://lantis.jp/topics/',
+    preMessage: 'https://lantis.jp/topics/ \n',
+    sheetName: 'Lantis',
+    aikatsuVer: 'lantis',
+    labelName: 'Lantisニュース',
+  },
+  {
+    url: 'https://www.bandai.co.jp/candy/characters/character338/index.html',
+    preMessage: '',
+    sheetName: 'バンダイキャンディ',
+    aikatsuVer: 'bandaiCandy',
+    labelName: 'バンダイキャンディ アイカツ！',
+  },
+  {
+    url: '',
+    preMessage: '',
+    sheetName: 'GamerJp',
+    aikatsuVer: 'gamerjp',
+    labelName: 'gamer.ne.jp アイカツニュース',
+  },
+  {
+    url: 'https://sec.carddass.com/club/',
+    preMessage: '',
+    sheetName: 'カードダスドットコム',
+    aikatsuVer: 'carddass',
+    labelName: 'カードダスドットコム',
+  }
+]
 
 // Mastodon の設定。他インスタンスを使う人は MASTODON_BASE_URL と MASTODON_TOKEN を
 // 差し替えるだけで利用できる(投稿URL/メディアURLは baseUrl から導出される)。
@@ -283,10 +291,14 @@ async function startAikatsuSurvey3() {
   await runSurvey_('SURVEY3', SURVEY_LIST_3);
 }
 
-// eeostore / sol-i 専用(大量更新でも他グループを圧迫しないよう分離)
 async function startAikatsuSurvey5() {
   if (!checkExecute()) return;
   await runSurvey_('SURVEY5', SURVEY_LIST_5);
+}
+
+async function startAikatsuSurvey7() {
+  if (!checkExecute()) return;
+  await runSurvey_('SURVEY7', SURVEY_LIST_7);
 }
 
 // 初回有効化時など、過去分を通知せずにシートだけ埋める(GASエディタから手動で1回だけ実行)。
@@ -303,7 +315,6 @@ function seedWithoutNotify() {
 }
 
 async function startAikatsuSurvey4() {
-  // if(!checkExecute()) return;
   const date = new Date();
   const nowHour = date.getHours();
   const nowMinutes = date.getMinutes();
@@ -436,6 +447,10 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
       case 'youtubeActivity':
         diffmessage = preMessage;
         newList = await retry(getYoutubeActivityList, retryOption, targetUrl + '&key=' + youtubeConfig.apiKey);
+        break;
+      case 'youtubeActivity2':
+        diffmessage = preMessage;
+        newList = await retry(getYoutubeActivityList2, retryOption, targetUrl + '&key=' + youtubeConfig.apiKey);
         break;
       case 'youtubePlaylistItems':
         diffmessage = preMessage;
