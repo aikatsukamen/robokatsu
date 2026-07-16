@@ -36,6 +36,7 @@ const getYoutubeActivityList2 = (url) => {
   const response = JSON.parse(UrlFetchApp.fetch(url).getContentText());
   for (let item of response.items) {
     const title = item.snippet.title;
+    if (!title) continue;
     if (!TARGET_LIST.find(target => title.includes(target))) continue;
 
     const thumnailUrl = item.snippet.thumbnails.default.url;
