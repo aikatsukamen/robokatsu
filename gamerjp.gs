@@ -46,6 +46,18 @@ const exe_gamerjp = () => {
 
     const pubEl = item.getChild('pubDate');
     const pub = pubEl ? pubEl.getText() : '';
+
+    // Google News RSS は古い記事をランダムに混ぜてくる。
+    // pubDate が現在時刻から2日前の記事は読み捨てる(日付が取れない場合は従来通り採用)。
+    if (pub) {
+      const pubTime = new Date(pub).getTime();
+      const CUTOFF_MS = 2 * 24 * 60 * 60 * 1000;
+      if (!isNaN(pubTime) && Date.now() - pubTime > CUTOFF_MS) {
+        console.log(`[gamerjp] 2日以上前の記事のためスキップ: ${pub} / ${titleRaw}`);
+        continue;
+      }
+    }
+
     const date = pub ? Utilities.formatDate(new Date(pub), 'Asia/Tokyo', 'yyyy.MM.dd') : '';
 
     // タイトル末尾の " - Gamer" を除去
