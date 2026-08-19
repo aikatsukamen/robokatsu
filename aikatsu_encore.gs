@@ -12,6 +12,7 @@
 const getAikatsuEncoreList = (url) => {
   console.log(`[aikatsuEncore] ${url}`);
   const base = 'https://dcd.aikatsu.com/encore/';
+  const ORIGIN = 'https://dcd.aikatsu.com';
   const list = [];
   const options = { followRedirects: true };
 
@@ -35,12 +36,18 @@ const getAikatsuEncoreList = (url) => {
     let fullUrl;
     if (href.startsWith('http')) {
       fullUrl = href; // 外部リンク(X など)はそのまま
+    } else if (href.startsWith('//')) {
+      fullUrl = 'https:' + href; // プロトコル相対
     } else if (href.startsWith('#')) {
       fullUrl = base + href; // ページ内アンカー
     } else if (href === '' || href.startsWith('javascript')) {
       fullUrl = base;
+    } else if (href.startsWith('/')) {
+      // ルート相対(PDFリンクは "/encore/teaser/pdf/xxx.pdf" 形式)。
+      // base に単純結合すると /encore/encore/... となりURLが壊れるため、オリジンに結合する。
+      fullUrl = ORIGIN + href;
     } else {
-      fullUrl = base + href.replace(/^\.?\//, ''); // 相対パス(pdf 等)
+      fullUrl = base + href.replace(/^\.\//, ''); // 相対パス(pdf 等)
     }
 
     const word = `${text} ${fullUrl}`;
