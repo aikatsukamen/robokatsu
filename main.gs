@@ -189,6 +189,13 @@ const SURVEY_LIST_7 = [
     sheetName: 'カードダスドットコム',
     aikatsuVer: 'carddass',
     labelName: 'カードダスドットコム',
+  },
+  {
+    url: 'https://syokugan-ohkoku.com/list-shohin.php?id=900',
+    preMessage: '',
+    sheetName: '食玩王国',
+    aikatsuVer: 'syokuganOhkoku',
+    labelName: '食玩王国 アイカツ',
   }
 ]
 
@@ -502,6 +509,10 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
       case 'aikatsuEncore':
         diffmessage = `${targetUrl}\n`;
         newList = await retry(getAikatsuEncoreList, retryOption, targetUrl);
+        break;
+      case 'syokuganOhkoku':
+        diffmessage = `${targetUrl}\n`;
+        newList = await retry(getSyokuganOhkokuList, retryOption, targetUrl);
         break;
       case 'tsutayaEvent':
         diffmessage = `${targetUrl}\n`;
