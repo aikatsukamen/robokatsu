@@ -99,16 +99,26 @@ const getBandaiLifeStyle = () => {
   const content = response.getContentText('UTF-8');
   const $ = cheerio.load(content);
 
-  $('.productsListCol>li').each(function (index, item) {
+  $('.c-card').each(function (index, item) {
     const url_base = 'https://bandai-lifestyle.jp/products/';
-    let href = $(item).find('.imgCol').find('a').attr('href');
-    const url = href ? `${url_base}${href}` : '';
-    let name = $(item).find('.imgCol').find('img').attr('alt');
-    console.log(`${name} ${url}`);
+    const link = $(item).find('.c-card__link');
+    const href = link.attr('href');
+    if (!href) return; // リンク無しはスキップ
+    const url = `${url_base}${href.replace(/^\.?\//, '')}`;
 
-    list.push(`${name} ${url}`);
+    // 商品名はテキスト側を優先し、無ければ画像のaltで代替する
+    let name = $(item).find('.c-card__txtTtl').text().replace(/\s+/g, ' ').trim();
+    if (!name) name = ($(item).find('.c-card__img').attr('alt') || '').replace(/\s+/g, ' ').trim();
+    if (!name) return;
+
+    // 発売日("2026.11.23" のほか "2027.01.中旬" のような表記もあるため文字列のまま扱う)
+    const date = $(item).find('.c-card__txtDate').text().replace(/\s+/g, ' ').trim();
+
+    const word = `${date ? `${date} ` : ''}${name} ${url}`;
+    if (!list.includes(word)) list.push(word);
   });
 
+  console.log(`[bandaiLifeStyle] ${list.length}件`);
   return list;
 };
 
