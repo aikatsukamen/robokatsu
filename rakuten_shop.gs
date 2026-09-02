@@ -60,8 +60,3 @@ const getRakutenShopList = (url) => {
   console.log(`[rakutenShop] ${list.length}件`);
   return list;
 };
-
-const test_rakutenShop = () => {
-  const json = getRakutenShopList('https://search.rakuten.co.jp/search/mall/%E3%82%A2%E3%82%A4%E3%82%AB%E3%83%84/?s=4&sid=356830');
-  console.log(JSON.stringify(json, null, '  '));
-};

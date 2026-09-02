@@ -50,9 +50,3 @@ const exe_lantis = () => {
 
   return list;
 };
-
-const test_lantis = () => {
-  const json = exe_lantis();
-
-  console.log(JSON.stringify(json));
-};

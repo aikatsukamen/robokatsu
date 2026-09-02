@@ -55,8 +55,3 @@ const getTsutayaEventList = (url) => {
   console.log(`[tsutayaEvent] ${list.length}件`);
   return list;
 };
-
-const test_tsutayaEvent = () => {
-  const json = getTsutayaEventList('https://shibuyatsutaya.tsite.jp/event/?article_tag=aikatsu');
-  console.log(JSON.stringify(json, null, '  '));
-};

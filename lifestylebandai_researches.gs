@@ -37,8 +37,3 @@ const getLifestyleBandaiResearches = (url) => {
   console.log(`[lifestyleResearches] ${list.length}件`);
   return list;
 };
-
-const test_lifestyleBandaiResearches = () => {
-  const json = getLifestyleBandaiResearches('https://bandai-lifestyle.jp/member/researches/');
-  console.log(JSON.stringify(json, null, '  '));
-};

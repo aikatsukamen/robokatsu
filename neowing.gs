@@ -46,13 +46,3 @@ const neowing = (url) => {
 
   return { content: `${title}\n\n ・収録曲\n${track}`, imgurl: imgurl };
 };
-
-const test_neowing1 = () => {
-  const json = neowing('https://www.neowing.co.jp/product/LACA-15971');
-  console.log(JSON.stringify(json, null, '  '));
-};
-
-const test_neowing2 = () => {
-  const json = neowing('https://www.neowing.co.jp/product/LACA-15972');
-  console.log(JSON.stringify(json, null, '  '));
-};

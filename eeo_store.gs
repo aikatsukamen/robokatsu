@@ -19,10 +19,3 @@ const exe_eeoStore = () => {
 
   return list;
 };
-
-const test_exe_eeoStore = () => {
-  const json = exe_eeoStore();
-
-  console.log(JSON.stringify(json));
-  console.log(`items: ${json.length}`);
-};

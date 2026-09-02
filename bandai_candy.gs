@@ -56,8 +56,3 @@ const getBandaiCandyList = (url) => {
   console.log(`[bandaiCandy] ${list.length}件`);
   return list;
 };
-
-const test_bandaiCandy = () => {
-  const json = getBandaiCandyList('https://www.bandai.co.jp/candy/characters/character338/index.html');
-  console.log(JSON.stringify(json, null, '  '));
-};

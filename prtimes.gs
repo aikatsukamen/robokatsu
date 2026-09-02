@@ -82,9 +82,3 @@ const exe_prtimes = () => {
 
   return list;
 };
-
-const test_exe_prtimes = () => {
-  const json = exe_prtimes();
-
-  console.log(JSON.stringify(json, null, '  '));
-};

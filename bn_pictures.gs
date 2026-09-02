@@ -42,7 +42,3 @@ const exe_bnpictures = () => {
 
   return list.sort().reverse();
 };
-
-const __test_exe_bnpictures = () => {
-  console.log(JSON.stringify(exe_bnpictures(), null, '  '));
-};

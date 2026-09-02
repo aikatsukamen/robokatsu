@@ -68,7 +68,3 @@ const exe_gamerjp = () => {
 
   return list;
 };
-
-const __test_exe_gamerjp = () => {
-  console.log(JSON.stringify(exe_gamerjp(), null, '  '));
-};

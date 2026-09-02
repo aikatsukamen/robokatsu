@@ -67,8 +67,3 @@ const getSyokuganOhkokuList = (url) => {
   console.log(`[syokuganOhkoku] ${list.length}件`);
   return list;
 };
-
-const test_syokuganOhkoku = () => {
-  const json = getSyokuganOhkokuList('https://syokugan-ohkoku.com/list-shohin.php?id=900');
-  console.log(JSON.stringify(json, null, '  '));
-};

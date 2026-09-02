@@ -57,7 +57,3 @@ const exe_village_v = () => {
 
   return list;
 }
-
-const __test_exe_village_v = () => {
-  console.log(JSON.stringify(exe_village_v(), null, "  "));
-}

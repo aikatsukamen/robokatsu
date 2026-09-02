@@ -39,8 +39,3 @@ const getGashaponResearches = (url) => {
   console.log(`[gashaponResearches] ${list.length}件`);
   return list;
 };
-
-const test_gashaponResearches = () => {
-  const json = getGashaponResearches('https://gashapon.jp/member/researches/');
-  console.log(JSON.stringify(json, null, '  '));
-};

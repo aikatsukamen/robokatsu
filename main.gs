@@ -21,7 +21,8 @@ const SURVEY_LIST_1 = [
     labelName: 'バンダイナムコピクチャーズニュース',
   },
   {
-    url: 'https://dcd.aikatsu.com/encore/',
+    // トップは新着5件のみのため、全件が載るニュース一覧を対象にする
+    url: 'https://dcd.aikatsu.com/encore/news/',
     preMessage: '',
     sheetName: 'アイカツアンコール',
     aikatsuVer: 'aikatsuEncore',

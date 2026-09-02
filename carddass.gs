@@ -38,9 +38,3 @@ const exe_carddasscom = () => {
 
   return list;
 };
-
-const test_exe_carddasscom = () => {
-  const json = exe_carddasscom();
-
-  console.log(JSON.stringify(json));
-};

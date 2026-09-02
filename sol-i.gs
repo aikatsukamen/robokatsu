@@ -22,10 +22,3 @@ const exe_solInternational = () => {
 
   return list;
 };
-
-const test_exe_solInternational = () => {
-  const json = exe_solInternational();
-
-  console.log(JSON.stringify(json));
-  console.log(`items: ${json.length}`);
-};
