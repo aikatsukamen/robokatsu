@@ -197,6 +197,13 @@ const SURVEY_LIST_7 = [
     sheetName: '食玩王国',
     aikatsuVer: 'syokuganOhkoku',
     labelName: '食玩王国 アイカツ',
+  },
+  {
+    url: 'https://dcd.aikatsu.com/encore/cardlist/?search=true&series=629901',
+    preMessage: '',
+    sheetName: 'アイカツアンコールプロモ',
+    aikatsuVer: 'aikatsuEncorePromo',
+    labelName: 'アイカツ！アンコール プロモカード',
   }
 ]
 
@@ -510,6 +517,10 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
       case 'aikatsuEncore':
         diffmessage = `${targetUrl}\n`;
         newList = await retry(getAikatsuEncoreList, retryOption, targetUrl);
+        break;
+      case 'aikatsuEncorePromo':
+        diffmessage = `${targetUrl}\n`;
+        newList = await retry(getAikatsuEncorePromoList, retryOption, targetUrl);
         break;
       case 'syokuganOhkoku':
         diffmessage = `${targetUrl}\n`;

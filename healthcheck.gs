@@ -88,6 +88,8 @@ const healthcheckFetch_ = (aikatsuVer, targetUrl) => {
       return getBandaiCandyList(targetUrl);
     case 'aikatsuEncore':
       return getAikatsuEncoreList(targetUrl);
+    case 'aikatsuEncorePromo':
+      return getAikatsuEncorePromoList(targetUrl);
     case 'syokuganOhkoku':
       return getSyokuganOhkokuList(targetUrl);
     case 'tsutayaEvent':
