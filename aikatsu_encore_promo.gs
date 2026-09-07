@@ -3,10 +3,9 @@
  *   https://dcd.aikatsu.com/encore/cardlist/?search=true&series=629901
  *
  * 取得対象は「カードID 表面の画像URL」。
- * カード名も取得対象に含めたいが、現在の一覧にはカード名のテキストが存在しない
- * (各カードにあるのは画像・表面/裏面・入手方法のみ)。存在しないものを別の
- * テキストで代用すると誤ったデータを通知することになるため、名前は出力しない。
- * カード名が表示されるようになったら、そのDOMを確認したうえで追加すること。
+ * カード名は生HTMLを確認したうえで対象外としている。カード1枚分のDOMにあるのは
+ * 画像・表面/裏面・入手方法のみで、alt属性もカードIDであり、カード名のテキストは
+ * どこにも存在しない(プロモーションカード・1弾のどちらでも同じ)。
  *
  * ■ 検索の仕組み
  *   カードリストは検索条件を1つ以上指定しないと1枚も返らない
@@ -50,6 +49,29 @@ const getAikatsuEncorePromoList = (url) => {
   const content = response.getContentText('UTF-8');
   const $ = cheerio.load(content);
 
+  // 画像は ../images/cardlist/card/xxx.webp のような相対パスで書かれているので、
+  // 取得元URLのディレクトリを基準に ./ と ../ を解決して絶対URLにする。
+  const basePath = targetUrl
+    .replace(/^https?:\/\/[^/]+/, '')
+    .replace(/[?#].*$/, '')
+    .replace(/[^/]*$/, '');
+  const resolveUrl = (src) => {
+    if (/^https?:\/\//.test(src)) return src;
+    if (src.startsWith('//')) return 'https:' + src;
+
+    const path = src.startsWith('/') ? src : basePath + src;
+    const parts = [];
+    path.split('/').forEach((segment) => {
+      if (segment === '' || segment === '.') return;
+      if (segment === '..') {
+        parts.pop();
+        return;
+      }
+      parts.push(segment);
+    });
+    return `${ORIGIN}/${parts.join('/')}`;
+  };
+
   const seen = {};
   $('img[src*="/cardlist/card/"]').each(function (index, img) {
     const src = $(img).attr('src') || '';
@@ -63,27 +85,10 @@ const getAikatsuEncorePromoList = (url) => {
     if (seen[cardId]) return;
     seen[cardId] = true;
 
-    // 相対パスで書かれていても絶対URLにする
-    let imageUrl;
-    if (src.startsWith('http')) {
-      imageUrl = src;
-    } else if (src.startsWith('//')) {
-      imageUrl = 'https:' + src;
-    } else if (src.startsWith('/')) {
-      imageUrl = ORIGIN + src;
-    } else {
-      imageUrl = `${ORIGIN}/encore/cardlist/${src.replace(/^\.\//, '')}`;
-    }
-
-    const word = `${cardId} ${imageUrl}`;
+    const word = `${cardId} ${resolveUrl(src)}`;
     if (list.indexOf(word) < 0) list.push(word);
   });
 
   console.log(`[aikatsuEncorePromo] ${list.length}件`);
   return list;
-};
-
-const test_aikatsuEncorePromo = () => {
-  const json = getAikatsuEncorePromoList();
-  console.log(JSON.stringify(json, null, '  '));
 };

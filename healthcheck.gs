@@ -207,6 +207,11 @@ const test_aikatsuEncore = () => {
   console.log(JSON.stringify(json, null, '  '));
 };
 
+const test_aikatsuEncorePromo = () => {
+  const json = getAikatsuEncorePromoList('https://dcd.aikatsu.com/encore/cardlist/?search=true&series=629901');
+  console.log(JSON.stringify(json, null, '  '));
+};
+
 const test_bandaiCandy = () => {
   const json = getBandaiCandyList('https://www.bandai.co.jp/candy/characters/character338/index.html');
   console.log(JSON.stringify(json, null, '  '));
