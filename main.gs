@@ -149,6 +149,13 @@ const SURVEY_LIST_5 = [
     aikatsuVer: 'sol-i',
     labelName: 'ソルインターナショナル アイカツシリーズ',
   },
+  {
+    url: 'https://www.animate-onlineshop.jp/products/list.php?sci=0&smt=%E3%82%A2%E3%82%A4%E3%82%AB%E3%83%84&ss=5&sl=100&nf=1&spc=&scc=&ssy=&ssm=&sey=&sem=',
+    preMessage: '',
+    sheetName: 'アニメイト',
+    aikatsuVer: 'animate',
+    labelName: 'アニメイトオンラインショップ アイカツ',
+  },
 ];
 
 // 8時・9時の 0/10/30 分のみ実行するトリガー
@@ -531,6 +538,9 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
         break;
       case 'aikatsuCalendar':
         newList = await retry(getAikatsuCalendarList, retryOption, targetUrl);
+        break;
+      case 'animate':
+        newList = await retry(getAnimateList, retryOption, targetUrl);
         break;
       case 'syokuganOhkoku':
         diffmessage = `${targetUrl}\n`;
