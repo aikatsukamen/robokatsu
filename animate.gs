@@ -2,6 +2,9 @@
  * アニメイトオンラインショップ の「アイカツ」検索結果を取得する。
  *   https://www.animate-onlineshop.jp/products/list.php?sci=0&smt=アイカツ&ss=5&sl=100&nf=1...
  *
+ * GAS の UrlFetchApp から直接アクセスすると 403 になるため、
+ * pbandai と同じく踏み台(PROXY_AJAX_URL)経由で取得する。
+ *
  * 主なクエリパラメータ:
  *   smt = 検索語 / sl = 表示件数(100が最大) / ss = 並び順
  *   ss=5 は「登録[新しい]」。検索ヒットは1600件超あるので全件は見ず、
@@ -24,18 +27,23 @@ const getAnimateList = (url) => {
   const targetUrl =
     url ||
     `${ORIGIN}/products/list.php?sci=0&smt=%E3%82%A2%E3%82%A4%E3%82%AB%E3%83%84&ss=5&sl=100&nf=1&spc=&scc=&ssy=&ssm=&sey=&sem=`;
-  console.log(`[animate] ${targetUrl}`);
+
+  // GAS の UrlFetchApp から直接叩くと 403 が返るため、pbandai と同じく
+  // 国内踏み台(Lambda Function URL, スクリプトプロパティ PROXY_AJAX_URL)を経由する。
+  // 未設定の環境では直アクセスにフォールバックする。
+  const fetchUrl = ajaxUrl ? ajaxUrl + encodeURIComponent(targetUrl) : targetUrl;
+  console.log(`[animate] ${fetchUrl}`);
 
   const list = [];
   const options = { followRedirects: true, muteHttpExceptions: true };
 
   let response;
   try {
-    response = UrlFetchApp.fetch(targetUrl, options);
+    response = UrlFetchApp.fetch(fetchUrl, options);
   } catch (e) {
     // 時々失敗するので1回だけリトライする
     Utilities.sleep(1000 * 5);
-    response = UrlFetchApp.fetch(targetUrl, options);
+    response = UrlFetchApp.fetch(fetchUrl, options);
   }
 
   const code = response.getResponseCode();
