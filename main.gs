@@ -204,7 +204,14 @@ const SURVEY_LIST_7 = [
     sheetName: 'アイカツアンコールプロモ',
     aikatsuVer: 'aikatsuEncorePromo',
     labelName: 'アイカツ！アンコール プロモカード',
-  }
+  },
+  {
+    url: 'https://aikatsu-info.github.io/aikatsu-calendar/data/items.json',
+    preMessage: '',
+    sheetName: 'aikatsu-calendar',
+    aikatsuVer: 'aikatsuCalendar',
+    labelName: 'aikatsu-calendar',
+  },
 ]
 
 // Mastodon の設定。他インスタンスを使う人は MASTODON_BASE_URL と MASTODON_TOKEN を
@@ -521,6 +528,9 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
       case 'aikatsuEncorePromo':
         diffmessage = `${targetUrl}\n`;
         newList = await retry(getAikatsuEncorePromoList, retryOption, targetUrl);
+        break;
+      case 'aikatsuCalendar':
+        newList = await retry(getAikatsuCalendarList, retryOption, targetUrl);
         break;
       case 'syokuganOhkoku':
         diffmessage = `${targetUrl}\n`;

@@ -90,6 +90,8 @@ const healthcheckFetch_ = (aikatsuVer, targetUrl) => {
       return getAikatsuEncoreList(targetUrl);
     case 'aikatsuEncorePromo':
       return getAikatsuEncorePromoList(targetUrl);
+    case 'aikatsuCalendar':
+      return getAikatsuCalendarList(targetUrl);
     case 'syokuganOhkoku':
       return getSyokuganOhkokuList(targetUrl);
     case 'tsutayaEvent':
@@ -209,6 +211,11 @@ const test_aikatsuEncore = () => {
 
 const test_aikatsuEncorePromo = () => {
   const json = getAikatsuEncorePromoList('https://dcd.aikatsu.com/encore/cardlist/?search=true&series=629901');
+  console.log(JSON.stringify(json, null, '  '));
+};
+
+const test_aikatsuCalendar = () => {
+  const json = getAikatsuCalendarList('https://aikatsu-info.github.io/aikatsu-calendar/data/items.json');
   console.log(JSON.stringify(json, null, '  '));
 };
 
