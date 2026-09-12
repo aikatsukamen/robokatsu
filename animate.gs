@@ -2,8 +2,9 @@
  * アニメイトオンラインショップ の「アイカツ」検索結果を取得する。
  *   https://www.animate-onlineshop.jp/products/list.php?sci=0&smt=アイカツ&ss=5&sl=100&nf=1...
  *
- * GAS の UrlFetchApp から直接アクセスすると 403 になるため、
- * pbandai と同じく踏み台(PROXY_AJAX_URL)経由で取得する。
+ * GAS の UrlFetchApp から直接アクセスすると 403 になる。GAS の送信元は海外IPで、
+ * このサイトは国外IPを弾いているため。pbandai と同じく AWS 東京リージョン(ap-northeast-1)の
+ * 踏み台(PROXY_AJAX_URL)を経由し、国内IPからのアクセスにすることで回避する。
  *
  * 主なクエリパラメータ:
  *   smt = 検索語 / sl = 表示件数(100が最大) / ss = 並び順
@@ -28,9 +29,9 @@ const getAnimateList = (url) => {
     url ||
     `${ORIGIN}/products/list.php?sci=0&smt=%E3%82%A2%E3%82%A4%E3%82%AB%E3%83%84&ss=5&sl=100&nf=1&spc=&scc=&ssy=&ssm=&sey=&sem=`;
 
-  // GAS の UrlFetchApp から直接叩くと 403 が返るため、pbandai と同じく
-  // 国内踏み台(Lambda Function URL, スクリプトプロパティ PROXY_AJAX_URL)を経由する。
-  // 未設定の環境では直アクセスにフォールバックする。
+  // 国内IPからのアクセスにするため、AWS東京リージョンの踏み台
+  // (Lambda Function URL, スクリプトプロパティ PROXY_AJAX_URL)を経由する。
+  // 未設定の環境では直アクセスにフォールバックする(海外IPからだと403になる)。
   const fetchUrl = ajaxUrl ? ajaxUrl + encodeURIComponent(targetUrl) : targetUrl;
   console.log(`[animate] ${fetchUrl}`);
 
