@@ -94,6 +94,8 @@ const healthcheckFetch_ = (aikatsuVer, targetUrl) => {
       return getAikatsuCalendarList(targetUrl);
     case 'animate':
       return getAnimateList(targetUrl);
+    case 'aikatsuOfficialShop':
+      return getAikatsuOfficialShopList(targetUrl);
     case 'syokuganOhkoku':
       return getSyokuganOhkokuList(targetUrl);
     case 'tsutayaEvent':
@@ -218,6 +220,11 @@ const test_aikatsuEncorePromo = () => {
 
 const test_aikatsuCalendar = () => {
   const json = getAikatsuCalendarList('https://aikatsu-info.github.io/aikatsu-calendar/data/items.json');
+  console.log(JSON.stringify(json, null, '  '));
+};
+
+const test_aikatsuOfficialShop = () => {
+  const json = getAikatsuOfficialShopList('https://bandainamco-am.co.jp/official_shop/aikatsu/');
   console.log(JSON.stringify(json, null, '  '));
 };
 

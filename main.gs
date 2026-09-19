@@ -27,6 +27,13 @@ const SURVEY_LIST_1 = [
     sheetName: 'アイカツアンコール',
     aikatsuVer: 'aikatsuEncore',
     labelName: 'アイカツ！アンコール',
+  },
+  {
+    url: 'https://bandainamco-am.co.jp/official_shop/aikatsu/',
+    preMessage: '',
+    sheetName: 'アイカツオフィシャルストア',
+    aikatsuVer: 'aikatsuOfficialShop',
+    labelName: 'アイカツ！オフィシャルストア',
   }
 ];
 
@@ -541,6 +548,9 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
         break;
       case 'animate':
         newList = await retry(getAnimateList, retryOption, targetUrl);
+        break;
+      case 'aikatsuOfficialShop':
+        newList = await retry(getAikatsuOfficialShopList, retryOption, targetUrl);
         break;
       case 'syokuganOhkoku':
         diffmessage = `${targetUrl}\n`;
