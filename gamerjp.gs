@@ -6,10 +6,12 @@
  * そのため Google News RSS (site:gamer.ne.jp アイカツ) を経由して取得する。
  *   - タイトルに「アイカツ」を含むものだけ採用(無関係なGamer記事を除外)
  *   - source は基本 "Gamer"
- *   - リンクは Google News 経由のリダイレクトURL(クリックで実記事へ転送される)
  *
- * ニュース系なので "日付 タイトル URL" の形式で返す。
- * @returns {String[]} "日付 タイトル URL" のリスト
+ * URLは出力しない。RSSのlinkは Google News 経由のリダイレクトURLで、
+ * 同じ記事でも取得のたびに値が変わるため、URLを含めると同じ記事が
+ * 何度も新着として通知されてしまう。
+ *
+ * @returns {String[]} "日付 タイトル" のリスト
  */
 const exe_gamerjp = () => {
   const list = [];
@@ -41,9 +43,6 @@ const exe_gamerjp = () => {
     const source = sourceEl ? sourceEl.getText() : '';
     if (source && source !== 'Gamer') continue;
 
-    const linkEl = item.getChild('link');
-    const link = linkEl ? linkEl.getText() : '';
-
     const pubEl = item.getChild('pubDate');
     const pub = pubEl ? pubEl.getText() : '';
 
@@ -63,7 +62,8 @@ const exe_gamerjp = () => {
     // タイトル末尾の " - Gamer" を除去
     const title = titleRaw.replace(/\s*-\s*Gamer\s*$/, '').trim();
 
-    list.push(`${date} ${title} ${link}`);
+    const word = `${date} ${title}`;
+    if (!list.includes(word)) list.push(word);
   }
 
   return list;
