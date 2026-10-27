@@ -163,6 +163,13 @@ const SURVEY_LIST_5 = [
     aikatsuVer: 'animate',
     labelName: 'アニメイトオンラインショップ アイカツ',
   },
+  {
+    url: 'https://bsp-prize.jp/search/?ref=title&title=IP00002764',
+    preMessage: '',
+    sheetName: 'バンプレストプライズ',
+    aikatsuVer: 'bspPrize',
+    labelName: 'バンプレスト プライズ アイカツ！',
+  },
 ];
 
 // 8時・9時の 0/10/30 分のみ実行するトリガー
@@ -548,6 +555,9 @@ const getList = async (targetUrl, aikatsuVer, sheetName, labelName, preMessage, 
         break;
       case 'animate':
         newList = await retry(getAnimateList, retryOption, targetUrl);
+        break;
+      case 'bspPrize':
+        newList = await retry(getBspPrizeList, retryOption, targetUrl);
         break;
       case 'aikatsuOfficialShop':
         newList = await retry(getAikatsuOfficialShopList, retryOption, targetUrl);

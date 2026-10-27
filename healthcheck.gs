@@ -94,6 +94,8 @@ const healthcheckFetch_ = (aikatsuVer, targetUrl) => {
       return getAikatsuCalendarList(targetUrl);
     case 'animate':
       return getAnimateList(targetUrl);
+    case 'bspPrize':
+      return getBspPrizeList(targetUrl);
     case 'aikatsuOfficialShop':
       return getAikatsuOfficialShopList(targetUrl);
     case 'syokuganOhkoku':
@@ -225,6 +227,11 @@ const test_aikatsuCalendar = () => {
 
 const test_aikatsuOfficialShop = () => {
   const json = getAikatsuOfficialShopList('https://bandainamco-am.co.jp/official_shop/aikatsu/');
+  console.log(JSON.stringify(json, null, '  '));
+};
+
+const test_bspPrize = () => {
+  const json = getBspPrizeList('https://bsp-prize.jp/search/?ref=title&title=IP00002764');
   console.log(JSON.stringify(json, null, '  '));
 };
 
